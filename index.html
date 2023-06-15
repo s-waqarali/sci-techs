@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Presentation Analysis</title>
+
+  <style>
+    /* Reset default styles */
+
+    body, h1, h2, h3, p, ul, li, form, input, textarea, button {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    video#preview {
+      width: 100%;
+      height: auto;
+      margin-bottom: 10px;
+    }
+
+    /* Global styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      color: #333;
+      line-height: 1.5;
+      background-image: url("");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: #333;
+      padding: 20px;
+      text-align: center;
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo {
+      margin-right: 10px;
+    }
+
+    .logo img {
+      height: 40px;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 0;
+    }
+
+    #menu-toggle {
+      display: none;
+    }
+
+    nav {
+      flex-grow: 1;
+      text-align: right;
+    }
+
+    nav ul {
+      list-style-type: none;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ff0066;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      margin-top: 80px; /* Add margin to push content below the fixed header */
+    }
+
+    section {
+      margin-bottom: 40px;
+    }
+}
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    p {
+      margin-bottom: 20px;
+      text-align: justify;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    input,
+    textarea,
+    button {
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+    }
+
+    button {
+      background-color: #333;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff0066;
+    }
+
+    footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* Two-column layout */
+    .two-columns {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .component {
+      flex-basis: 48%;
+      margin: 0.1em;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+ 
+
+    /* Colorful styles */
+    h3 {
+      color: #ff0066;
+      margin-bottom: 10px;
+    }
+
+    #result-container p {
+      color: red;
+      font-size: 10px;
+    }
+
+    .component p {
+      color: #666;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+
+      .logo img {
+        height: 30px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+    #menu-toggle {
+      display: inline-block;
+      cursor: pointer;
+      position: fixed;
+      top: 25px;
+      right: 20px;
+      z-index: 999;
+    }
+
+    #menu-toggle .bar {
+      width: 30px;
+      height: 4px;
+      background-color: #fff;
+      margin-bottom: 6px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    #menu-toggle.open .bar:nth-child(1) {
+      transform: rotate(-45deg) translate(-6px, 6px);
+    }
+
+    #menu-toggle.open .bar:nth-child(2) {
+      opacity: 0;
+    }
+
+    #menu-toggle.open .bar:nth-child(3) {
+      transform: rotate(45deg) translate(-6px, -6px);
+    }
+
+      nav {
+        display: none;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 100%;
+        background-color: #333;
+        transition: opacity 0.3s;
+      }
+
+      nav.open {
+        display: block;
+        opacity: 1;
+      }
+
+      nav ul {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+      }
+
+      nav a {
+        margin-left: 0;
+        margin-bottom: 20px;
+      }
+    }
+    
+  </style>
+
+</head>
+
+ 
+
+<body>
+
+  <header>
+
+    <div class="logo">
+      <img src="Logo.png" alt="Logo">
+    </div>
+    <h1>AI Presentation Analysis</h1>
+
+    <div id="menu-toggle">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+
+    <nav id="menu">
+      <ul>
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="hero">
+      <h3>Welcome to AI Presentation Analysis</h3>
+      <p> Enhance your presentations with the power of artificial intelligence. Our cutting-edge web application offers valuable insights and analysis to make your presentations more impactful and engaging. Whether you are a student, a professional, or anyone looking to captivate your audience, our AI-powered analysis will take your presentations to the next level.</p>
+      <form id="upload-form">
+        <input type="file" accept="video/*" id="video-upload" required>
+        <button type="submit">Analyze Presentation</button>
+        <button type="button" id="record-button">Record Video</button>
+      </form>
+      <!-- Video preview container -->
+      <div id="video-preview-container"></div>
+      <div id="result-container"></div>
+    </section>
+
+    <section id="about">
+      <h2>About Us</h2>
+      <div class="two-columns">
+        <div class="component">
+          <h3>Our Vision</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sollicitudin lacus a augue ultrices, ac
+            cursus erat luctus. In sodales nisi a velit gravida interdum.</p>
+        </div>
+
+        <div class="component">
+          <h3>Our Mission</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sollicitudin lacus a augue ultrices, ac
+            cursus erat luctus. In sodales nisi a velit gravida interdum.</p>
+        </div>
+      </div>
+
+      <div class="component">
+          <h3>Our Mission</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sollicitudin lacus a augue ultrices, ac
+            cursus erat luctus. In sodales nisi a velit gravida interdum.</p>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <form id="contact-form">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="email" id="email" placeholder="Your Email" required>
+        <textarea id="message" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+
+  </main>
+
+  <footer>
+    &copy; 2023 AI Presentation Analysis. All rights reserved.
+  </footer>
+
+  <script>
+      
+    const menuToggle = document.getElementById('menu-toggle');
+    const nav = document.getElementById('menu');
+    menuToggle.addEventListener('click', () => {
+        nav.classList.toggle('open');
+    });
+
+    // Handle form submissions
+    const uploadForm = document.getElementById('upload-form');
+    const resultContainer = document.getElementById('result-container');
+    uploadForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const file = videoUpload.files[0] || recordedBlob; // Use the recorded video if available
+      if (file) {
+        resultContainer.innerHTML = 'Uploading and analyzing presentation...';
+        // Perform the analysis and update the resultContainer with the results
+        // You can add your own JavaScript logic here or make an API request to analyze the presentation
+      }
+    });
+
+    const contactForm = document.getElementById('contact-form');
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      contactForm.reset();
+      // Display a success message
+      alert('Thank you for your message! We will get back to you soon.');
+    });
+
+    // Function to handle video recording
+    function startRecording(stream) {
+      const videoPreviewContainer = document.getElementById('video-preview-container');
+      const videoPreview = document.createElement('video');
+      videoPreview.id = 'preview';
+      videoPreview.srcObject = stream;
+      videoPreview.autoplay = true;
+      videoPreview.controls = true;
+      videoPreviewContainer.innerHTML = '';
+      videoPreviewContainer.appendChild(videoPreview);
+    }
+
+    function stopRecording(stream) {
+      stream.getTracks().forEach(track => track.stop());
+      const videoPreviewContainer = document.getElementById('video-preview-container');
+      videoPreviewContainer.innerHTML = '';
+    }
+
+    // Handle form submissions
+    const recordForm = document.getElementById('record-form');
+    const videoUpload = document.getElementById('video-upload');
+    const recordButton = document.getElementById('record-button');
+
+    uploadForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Handle file upload logic
+      const file = videoUpload.files[0];
+      if (file) {
+        resultContainer.innerHTML = 'Uploading and analyzing presentation...';
+        // Perform the analysis and update the resultContainer with the results
+        // You can add your own JavaScript logic here or make an API request to analyze the presentation
+      }
+    });
+
+function handleWebcamError(error) {
+  if (error.name === "NotFoundError" || error.name === "DevicesNotFoundError") {
+    // Display a message indicating that no webcam is available
+    alert('Webcam not found. Recording feature is not available.');
+  } else if (error.name === "NotAllowedError" || error.name === "PermissionDeniedError") {
+    // Display a message indicating that access to the webcam was denied
+    alert('Access to webcam denied. Recording feature is not available.');
+  } else {
+    // Display a generic error message
+    resultContainer.innerHTML = alert('An error occurred while accessing the webcam.');
+  }
+}
+
+    let recordedBlob; // Variable to store the recorded video
+
+recordButton.addEventListener('click', async () => {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    startRecording(stream);
+    recordButton.disabled = true;
+    recordButton.textContent = 'Recording...';
+
+    // Stop recording after 10 seconds (adjust the duration as needed)
+    setTimeout(() => {
+      recordedBlob = stopRecording(stream); // Save the recorded video to the variable
+      recordButton.disabled = false;
+      recordButton.textContent = 'Record Video';
+    }, 10000);
+  } catch (error) {
+    handleWebcamError(error);
+  }
+});
+
+
+
+
+  </script>
+
+</body>
+
+ 
+
+</html>
